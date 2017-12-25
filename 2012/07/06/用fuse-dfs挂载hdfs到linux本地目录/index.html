@@ -95,18 +95,18 @@
 
 
 
-<meta name="description" content="Namenode Manual Failover(元数据备份采用nfs) 通过备份在nfs上的元数据恢复namenode.  前言 元数据备份通过NFS放在snn（c05.cloudiya.com）下，namenode故障手动切换到snn,snn升级为namenode,新snn和datanode（c02.cloudiya.com）是一个节点。  恢复前hadoop结构    node ipadd">
+<meta name="description" content="用fuse-dfs挂载hdfs到linux本地目录需要的组件    组件 版本     os redhat 6.0   hadoop 0.20.203.0   gcc 4.4.5   jdk 1.6.0.31   fuse 2.8.3    其它：automake，autoconf，m4，libtool，pkgconfig，fuse，fuse-devel，fuse-libs。  下载安装ant">
 <meta name="keywords" content="hadoop,hdfs,大数据,mapreduce">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Namenode Manual Failover(元数据备份采用nfs)">
-<meta property="og:url" content="http://yoursite.com/2012/06/20/Namenode Manual Failover(元数据备份采用nfs)/index.html">
+<meta property="og:title" content="用fuse-dfs挂载hdfs到linux本地目录">
+<meta property="og:url" content="http://yoursite.com/2012/07/06/用fuse-dfs挂载hdfs到linux本地目录/index.html">
 <meta property="og:site_name" content="itwye&#39;s 博客">
-<meta property="og:description" content="Namenode Manual Failover(元数据备份采用nfs) 通过备份在nfs上的元数据恢复namenode.  前言 元数据备份通过NFS放在snn（c05.cloudiya.com）下，namenode故障手动切换到snn,snn升级为namenode,新snn和datanode（c02.cloudiya.com）是一个节点。  恢复前hadoop结构    node ipadd">
+<meta property="og:description" content="用fuse-dfs挂载hdfs到linux本地目录需要的组件    组件 版本     os redhat 6.0   hadoop 0.20.203.0   gcc 4.4.5   jdk 1.6.0.31   fuse 2.8.3    其它：automake，autoconf，m4，libtool，pkgconfig，fuse，fuse-devel，fuse-libs。  下载安装ant">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2012-06-20T03:31:54.000Z">
+<meta property="og:updated_time" content="2012-07-06T01:18:54.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Namenode Manual Failover(元数据备份采用nfs)">
-<meta name="twitter:description" content="Namenode Manual Failover(元数据备份采用nfs) 通过备份在nfs上的元数据恢复namenode.  前言 元数据备份通过NFS放在snn（c05.cloudiya.com）下，namenode故障手动切换到snn,snn升级为namenode,新snn和datanode（c02.cloudiya.com）是一个节点。  恢复前hadoop结构    node ipadd">
+<meta name="twitter:title" content="用fuse-dfs挂载hdfs到linux本地目录">
+<meta name="twitter:description" content="用fuse-dfs挂载hdfs到linux本地目录需要的组件    组件 版本     os redhat 6.0   hadoop 0.20.203.0   gcc 4.4.5   jdk 1.6.0.31   fuse 2.8.3    其它：automake，autoconf，m4，libtool，pkgconfig，fuse，fuse-devel，fuse-libs。  下载安装ant">
 
 
 
@@ -136,13 +136,13 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/2012/06/20/Namenode Manual Failover(元数据备份采用nfs)/"/>
+  <link rel="canonical" href="http://yoursite.com/2012/07/06/用fuse-dfs挂载hdfs到linux本地目录/"/>
 
 
 
 
 
-  <title>Namenode Manual Failover(元数据备份采用nfs) | itwye's 博客</title>
+  <title>用fuse-dfs挂载hdfs到linux本地目录 | itwye's 博客</title>
   
 
 
@@ -259,7 +259,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2012/06/20/Namenode Manual Failover(元数据备份采用nfs)/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2012/07/06/用fuse-dfs挂载hdfs到linux本地目录/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="itwye">
@@ -276,7 +276,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">Namenode Manual Failover(元数据备份采用nfs)</h1>
+          <h1 class="post-title" itemprop="name headline">用fuse-dfs挂载hdfs到linux本地目录</h1>
         
 
         <div class="post-meta">
@@ -288,8 +288,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2012-06-20T11:31:54+08:00">
-                2012-06-20
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2012-07-06T09:18:54+08:00">
+                2012-07-06
               </time>
             
 
@@ -349,100 +349,63 @@
 
       
         <blockquote>
-<h4 id="Namenode-Manual-Failover-元数据备份采用nfs"><a href="#Namenode-Manual-Failover-元数据备份采用nfs" class="headerlink" title="Namenode Manual Failover(元数据备份采用nfs)"></a>Namenode Manual Failover(元数据备份采用nfs)</h4></blockquote>
-<p>通过备份在nfs上的元数据恢复namenode.</p>
-<blockquote>
-<h4 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h4></blockquote>
-<p>元数据备份通过NFS放在snn（c05.cloudiya.com）下，namenode故障手动切换到snn,snn升级为namenode,<br>新snn和datanode（c02.cloudiya.com）是一个节点。</p>
-<blockquote>
-<h4 id="恢复前hadoop结构"><a href="#恢复前hadoop结构" class="headerlink" title="恢复前hadoop结构"></a>恢复前hadoop结构</h4></blockquote>
+<h4 id="用fuse-dfs挂载hdfs到linux本地目录"><a href="#用fuse-dfs挂载hdfs到linux本地目录" class="headerlink" title="用fuse-dfs挂载hdfs到linux本地目录"></a>用fuse-dfs挂载hdfs到linux本地目录</h4><h5 id="需要的组件"><a href="#需要的组件" class="headerlink" title="需要的组件"></a>需要的组件</h5></blockquote>
 <table>
 <thead>
 <tr>
-<th>node</th>
-<th>ipaddrees</th>
-<th>hostname</th>
+<th>组件</th>
+<th>版本</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td>namenode</td>
-<td>192.168.0.112</td>
-<td>c01.cloudiya.com</td>
+<td>os</td>
+<td>redhat 6.0</td>
 </tr>
 <tr>
-<td>snn</td>
-<td>192.168.0.110</td>
-<td>c05.cloudiya.com</td>
+<td>hadoop</td>
+<td>0.20.203.0</td>
 </tr>
 <tr>
-<td>datanode</td>
-<td>192.168.0.111</td>
-<td>c02.cloudiya.com</td>
+<td>gcc</td>
+<td>4.4.5</td>
 </tr>
 <tr>
-<td>datanode</td>
-<td>192.168.0.108</td>
-<td>c12.cloudiya.com</td>
+<td>jdk</td>
+<td>1.6.0.31</td>
 </tr>
 <tr>
-<td>datanode</td>
-<td>192.168.0.109</td>
-<td>c03.cloudiya.com</td>
+<td>fuse</td>
+<td>2.8.3</td>
 </tr>
 </tbody>
 </table>
+<p>其它：automake，autoconf，m4，libtool，pkgconfig，fuse，fuse-devel，fuse-libs。</p>
 <blockquote>
-<h4 id="恢复后hadoop结构"><a href="#恢复后hadoop结构" class="headerlink" title="恢复后hadoop结构"></a>恢复后hadoop结构</h4></blockquote>
-<table>
-<thead>
-<tr>
-<th>node</th>
-<th>ipaddrees</th>
-<th>hostname    </th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>namenode</td>
-<td>192.168.0.110</td>
-<td>c05.cloudiya.com</td>
-</tr>
-<tr>
-<td>datanode and snn</td>
-<td>192.168.0.111</td>
-<td>c02.cloudiya.com</td>
-</tr>
-<tr>
-<td>datanode</td>
-<td>192.168.0.108</td>
-<td>c12.cloudiya.com</td>
-</tr>
-<tr>
-<td>datanode</td>
-<td>192.168.0.109</td>
-<td>c03.cloudiya.com</td>
-</tr>
-</tbody>
-</table>
+<h5 id="下载安装ant"><a href="#下载安装ant" class="headerlink" title="下载安装ant"></a>下载安装ant</h5></blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">#tar zxvf apache-ant-1.8.2-bin.tar.gz</div><div class="line">ant位于/usr/local/src/apache-ant-1.8.2/</div></pre></td></tr></table></figure>
 <blockquote>
-<h4 id="分发新namenode的公钥到其它节点"><a href="#分发新namenode的公钥到其它节点" class="headerlink" title="分发新namenode的公钥到其它节点"></a>分发新namenode的公钥到其它节点</h4></blockquote>
-<p>分发做namenode备份的snn(c05.cloudiya.com)的公钥到其它节点，做到c05.cloudiya.com无密码自动登录其它节点。<br>在公钥分发好后 ，一定要测试下。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">ssh c02.cloudiya.com</div><div class="line">ssh c12.cloudiya.com</div><div class="line">ssh c03.cloudiya.com</div><div class="line">ssh c05.cloudiya.com</div></pre></td></tr></table></figure>
+<h5 id="环境变量"><a href="#环境变量" class="headerlink" title="环境变量"></a>环境变量</h5></blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">HADOOP_HOME=&quot;/usr/local/src/lanhadoop/hadoopinstall&quot;</div><div class="line">JAVA_HOME=&quot;/usr/local/src/jdk1.6.0_31&quot;</div><div class="line">export HADOOP_HOME JAVA_HOME</div><div class="line">export OS_NAME=linux</div><div class="line">export OS_ARCH=amd64</div><div class="line">export OS_BIT=64</div><div class="line">export LD_LIBRARY_PATH=$JAVA_HOME/jre/lib/amd64/server:$HADOOP_HOME/build/c++/Linux-amd64-64/lib:/usr/local/lib:/usr/lib</div><div class="line">#export ANT_HOME=/usr/local/ant</div><div class="line">export PATH=$PATH:$HADOOP_HOME/bin:$JAVA_HOME/bin:$JAVA_HOME/jre/bin</div><div class="line">#export FUSE_HOME=/usr/local/src/fuse-2.8.7</div></pre></td></tr></table></figure>
 <blockquote>
-<h4 id="检查所有节点是否hadoop相关进程都已关闭"><a href="#检查所有节点是否hadoop相关进程都已关闭" class="headerlink" title="检查所有节点是否hadoop相关进程都已关闭"></a>检查所有节点是否hadoop相关进程都已关闭</h4></blockquote>
-<p>检查所有节点是否hadoop相关进程都已关闭,如没有关闭，请关闭之!</p>
+<h5 id="编译libhdfs"><a href="#编译libhdfs" class="headerlink" title="编译libhdfs"></a>编译libhdfs</h5></blockquote>
+<p>进入hadoop安装路径运行以下命令</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">#/usr/local/src/apache-ant-1.8.2/bin/ant  compile-c++-libhdfs -Dlibhdfs=1 -Dcompile.c++=1</div><div class="line">#ln -s c++/Linux-$OS_ARCH-$OS_BIT/lib build/libhdfs</div></pre></td></tr></table></figure>
+<p>这一步是编译libhdfs，因为libhdfs需要交叉编译，直接到src里面编译会报错，所以需要用ant编译。注意OS_ARCH和OS_BIT必须设置，否则会失败。</p>
 <blockquote>
-<h4 id="在新namenode节点（c05-cloudiya-com）修改配置"><a href="#在新namenode节点（c05-cloudiya-com）修改配置" class="headerlink" title="在新namenode节点（c05.cloudiya.com）修改配置"></a>在新namenode节点（c05.cloudiya.com）修改配置</h4><h5 id="修改core-site-xml"><a href="#修改core-site-xml" class="headerlink" title="修改core-site.xml"></a>修改core-site.xml</h5></blockquote>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">fs.default.name  --&gt;  hdfs://c05.cloudiya.com:50081</div></pre></td></tr></table></figure>
+<h5 id="编译fuse-dfs"><a href="#编译fuse-dfs" class="headerlink" title="编译fuse-dfs"></a>编译fuse-dfs</h5></blockquote>
+<p>hadoop 0.20.203.0版本中fuse存在一个bug，需要先修改掉才能继续编译。<br>(在hadoop 1.0.1下，不需再修改fuse_connect.c，此BUG已修复)</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">打开$HADOOP_HOME/src/contrib/fuse-dfs/src/fuse_connect.c</div><div class="line"></div><div class="line">找到</div><div class="line">hdfsFS fs = hdfsConnectAsUser(hostname, port, user, (const char **)groups, numgroups);</div><div class="line"></div><div class="line">修改为</div><div class="line">hdfsFS fs = hdfsConnectAsUser(hostname, port, user);</div><div class="line"></div><div class="line">然后运行编译</div><div class="line">#/root/apache-ant-1.8.2/bin/ant compile-contrib -Dlibhdfs=1 -Dfusedfs=1</div></pre></td></tr></table></figure>
+<p>如果编译失败，比较可能的原因是找不到libhdfs，请参看第一步的ln -s。</p>
 <blockquote>
-<h5 id="修改hdfs-site-xml"><a href="#修改hdfs-site-xml" class="headerlink" title="修改hdfs-site.xml"></a>修改hdfs-site.xml</h5></blockquote>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">dfs.name.dir  --&gt;  原snn下NFS目录 /hadoop_meta_data</div></pre></td></tr></table></figure>
+<h5 id="环境配置"><a href="#环境配置" class="headerlink" title="环境配置"></a>环境配置</h5></blockquote>
+<p>编辑/etc/fuse.conf，写入以下内容<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">user_allow_other</div><div class="line">mount_max=100</div></pre></td></tr></table></figure></p>
+<p>编辑$HADOOP_HOME/build/contrib/fuse-dfs/fuse_dfs_wrapper.sh<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div></pre></td><td class="code"><pre><div class="line">if [ &quot;$HADOOP_HOME&quot; = &quot;&quot; ]; then</div><div class="line">export HADOOP_HOME=/usr/local/src/lanhadoop/hadoopinstall</div><div class="line">fi</div><div class="line"></div><div class="line">export PATH=$HADOOP_HOME/build/contrib/fuse_dfs:$PATH</div><div class="line"></div><div class="line">for f in ls $HADOOP_HOME/lib/*.jar $HADOOP_HOME/*.jar ; do</div><div class="line">export  CLASSPATH=$CLASSPATH:$f</div><div class="line">done</div><div class="line"></div><div class="line">if [ &quot;$OS_ARCH&quot; = &quot;&quot; ]; then</div><div class="line">export OS_ARCH=amd64</div><div class="line">fi</div><div class="line"></div><div class="line">if [ &quot;$JAVA_HOME&quot; = &quot;&quot; ]; then</div><div class="line">export  JAVA_HOME=/usr/local/src/jdk1.6.0_31</div><div class="line">fi</div><div class="line"></div><div class="line">if [ &quot;$LD_LIBRARY_PATH&quot; = &quot;&quot; ]; then</div><div class="line">export LD_LIBRARY_PATH=$JAVA_HOME/jre/lib/$OS_ARCH/server:/usr/local/share/hdfs/libhdfs/:/usr/local/lib</div><div class="line">fi</div><div class="line"></div><div class="line">fuse_dfs $@</div></pre></td></tr></table></figure></p>
 <blockquote>
-<h5 id="修改mapred-site-xml"><a href="#修改mapred-site-xml" class="headerlink" title="修改mapred-site.xml"></a>修改mapred-site.xml</h5></blockquote>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">mapred.job.tracker --&gt;  c05.cloudiya.com:50082</div></pre></td></tr></table></figure>
-<blockquote>
-<h5 id="修改masters文件指向新的snn-–-gt-c02-cloudiya-com"><a href="#修改masters文件指向新的snn-–-gt-c02-cloudiya-com" class="headerlink" title="修改masters文件指向新的snn –&gt; c02.cloudiya.com"></a>修改masters文件指向新的snn –&gt; c02.cloudiya.com</h5><h5 id="在新namenode节点（c05-cloudiya-com）分发配置文件到其它节点"><a href="#在新namenode节点（c05-cloudiya-com）分发配置文件到其它节点" class="headerlink" title="在新namenode节点（c05.cloudiya.com）分发配置文件到其它节点"></a>在新namenode节点（c05.cloudiya.com）分发配置文件到其它节点</h5><h5 id="启动hadoop"><a href="#启动hadoop" class="headerlink" title="启动hadoop"></a>启动hadoop</h5></blockquote>
+<h5 id="mount"><a href="#mount" class="headerlink" title="mount"></a>mount</h5></blockquote>
+<p>设置文件权限<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">chmod +x /data/soft/hadoop-2.20.1/build/contrib/fuse-dfs/fuse_dfs_wrapper.sh </div><div class="line">chmod +x /data/soft/hadoop-2.20.1/build/contrib/fuse-dfs/fuse_dfs </div><div class="line">ln -s /data/soft/hadoop-2.20.1/build/contrib/fuse-dfs/fuse_dfs_wrapper.sh /usr/local/bin </div><div class="line">ln -s /data/soft/hadoop-2.20.1/build/contrib/fuse-dfs/fuse_dfs /usr/local/bin/ </div><div class="line">mkdir /mnt/dfs</div></pre></td></tr></table></figure></p>
+<p>手动挂载hdfs文件系统<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">fuse_dfs_wrapper.sh dfs://192.168.1.11:54310 /mnt/dfs</div></pre></td></tr></table></figure></p>
+<p>开机自动挂载hdfs文件系统<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">vi /etc/fstab </div><div class="line">fuse_dfs_wrapper.sh dfs://192.168.1.11:54310 /mnt/dfs    fuse rw,auto 0 0</div></pre></td></tr></table></figure></p>
 
       
     </div>
@@ -479,8 +442,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2012/06/20/SecondaryNamenode Checkpoint 故障一例/" rel="next" title="SecondaryNamenode Checkpoint 故障一例">
-                <i class="fa fa-chevron-left"></i> SecondaryNamenode Checkpoint 故障一例
+              <a href="/2012/06/20/Namenode Manual Failover(元数据备份采用nfs)/" rel="next" title="Namenode Manual Failover(元数据备份采用nfs)">
+                <i class="fa fa-chevron-left"></i> Namenode Manual Failover(元数据备份采用nfs)
               </a>
             
           </div>
@@ -489,8 +452,8 @@
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2012/07/06/用fuse-dfs挂载hdfs到linux本地目录/" rel="prev" title="用fuse-dfs挂载hdfs到linux本地目录">
-                用fuse-dfs挂载hdfs到linux本地目录 <i class="fa fa-chevron-right"></i>
+              <a href="/2012/07/06/Namenode Manual Failover/" rel="prev" title="Namenode Manual Failover">
+                Namenode Manual Failover <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -626,7 +589,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#Namenode-Manual-Failover-元数据备份采用nfs"><span class="nav-number">1.</span> <span class="nav-text">Namenode Manual Failover(元数据备份采用nfs)</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#前言"><span class="nav-number">2.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#恢复前hadoop结构"><span class="nav-number">3.</span> <span class="nav-text">恢复前hadoop结构</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#恢复后hadoop结构"><span class="nav-number">4.</span> <span class="nav-text">恢复后hadoop结构</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#分发新namenode的公钥到其它节点"><span class="nav-number">5.</span> <span class="nav-text">分发新namenode的公钥到其它节点</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#检查所有节点是否hadoop相关进程都已关闭"><span class="nav-number">6.</span> <span class="nav-text">检查所有节点是否hadoop相关进程都已关闭</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#在新namenode节点（c05-cloudiya-com）修改配置"><span class="nav-number">7.</span> <span class="nav-text">在新namenode节点（c05.cloudiya.com）修改配置</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#修改core-site-xml"><span class="nav-number">7.1.</span> <span class="nav-text">修改core-site.xml</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#修改hdfs-site-xml"><span class="nav-number">7.2.</span> <span class="nav-text">修改hdfs-site.xml</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#修改mapred-site-xml"><span class="nav-number">7.3.</span> <span class="nav-text">修改mapred-site.xml</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#修改masters文件指向新的snn-–-gt-c02-cloudiya-com"><span class="nav-number">7.4.</span> <span class="nav-text">修改masters文件指向新的snn –> c02.cloudiya.com</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#在新namenode节点（c05-cloudiya-com）分发配置文件到其它节点"><span class="nav-number">7.5.</span> <span class="nav-text">在新namenode节点（c05.cloudiya.com）分发配置文件到其它节点</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#启动hadoop"><span class="nav-number">7.6.</span> <span class="nav-text">启动hadoop</span></a></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#用fuse-dfs挂载hdfs到linux本地目录"><span class="nav-number">1.</span> <span class="nav-text">用fuse-dfs挂载hdfs到linux本地目录</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#需要的组件"><span class="nav-number">1.1.</span> <span class="nav-text">需要的组件</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#下载安装ant"><span class="nav-number">1.2.</span> <span class="nav-text">下载安装ant</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#环境变量"><span class="nav-number">1.3.</span> <span class="nav-text">环境变量</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#编译libhdfs"><span class="nav-number">1.4.</span> <span class="nav-text">编译libhdfs</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#编译fuse-dfs"><span class="nav-number">1.5.</span> <span class="nav-text">编译fuse-dfs</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#环境配置"><span class="nav-number">1.6.</span> <span class="nav-text">环境配置</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#mount"><span class="nav-number">1.7.</span> <span class="nav-text">mount</span></a></li></ol></li></ol></div>
             
 
           </div>
