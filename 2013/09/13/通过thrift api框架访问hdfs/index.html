@@ -95,18 +95,18 @@
 
 
 
-<meta name="description" content="hadoop运行一段时间后,无法stop-all.sh停止 在hadoop集群运行一段时间后 ，无法通过stop-all.sh关闭hadoop.  From Google 123456789101112今天发现一个问题，当hadoop集群运行一段时间以后，无法停止服务。执行stop-all的时候提示 no tasktracker to stop ，no  datanode to stop。而当我">
+<meta name="description" content="通过thrift api框架访问hdfs 可在任何客户端通过thrift框架管理hdfs上数据. 注: start_thrift_server.sh不一定要在namenode上运行,datanodes上皆运行. 以下操作均在namenode(192.168.0.112)下执行.  编译相关类 12cloudiyadatauser$ cd hadoop  &amp;amp;&amp;amp; ant compil">
 <meta name="keywords" content="hadoop,hdfs,大数据,mapreduce">
 <meta property="og:type" content="article">
-<meta property="og:title" content="hadoop运行一段时间后,无法stop-all.sh停止">
-<meta property="og:url" content="http://yoursite.com/2012/07/20/hadoop运行一段时间后,无法stop-all.sh停止/index.html">
+<meta property="og:title" content="通过thrift api框架访问hdfs">
+<meta property="og:url" content="http://yoursite.com/2013/09/13/通过thrift api框架访问hdfs/index.html">
 <meta property="og:site_name" content="itwye&#39;s 博客">
-<meta property="og:description" content="hadoop运行一段时间后,无法stop-all.sh停止 在hadoop集群运行一段时间后 ，无法通过stop-all.sh关闭hadoop.  From Google 123456789101112今天发现一个问题，当hadoop集群运行一段时间以后，无法停止服务。执行stop-all的时候提示 no tasktracker to stop ，no  datanode to stop。而当我">
+<meta property="og:description" content="通过thrift api框架访问hdfs 可在任何客户端通过thrift框架管理hdfs上数据. 注: start_thrift_server.sh不一定要在namenode上运行,datanodes上皆运行. 以下操作均在namenode(192.168.0.112)下执行.  编译相关类 12cloudiyadatauser$ cd hadoop  &amp;amp;&amp;amp; ant compil">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2012-07-20T01:28:54.000Z">
+<meta property="og:updated_time" content="2013-09-13T06:25:54.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="hadoop运行一段时间后,无法stop-all.sh停止">
-<meta name="twitter:description" content="hadoop运行一段时间后,无法stop-all.sh停止 在hadoop集群运行一段时间后 ，无法通过stop-all.sh关闭hadoop.  From Google 123456789101112今天发现一个问题，当hadoop集群运行一段时间以后，无法停止服务。执行stop-all的时候提示 no tasktracker to stop ，no  datanode to stop。而当我">
+<meta name="twitter:title" content="通过thrift api框架访问hdfs">
+<meta name="twitter:description" content="通过thrift api框架访问hdfs 可在任何客户端通过thrift框架管理hdfs上数据. 注: start_thrift_server.sh不一定要在namenode上运行,datanodes上皆运行. 以下操作均在namenode(192.168.0.112)下执行.  编译相关类 12cloudiyadatauser$ cd hadoop  &amp;amp;&amp;amp; ant compil">
 
 
 
@@ -136,13 +136,13 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/2012/07/20/hadoop运行一段时间后,无法stop-all.sh停止/"/>
+  <link rel="canonical" href="http://yoursite.com/2013/09/13/通过thrift api框架访问hdfs/"/>
 
 
 
 
 
-  <title>hadoop运行一段时间后,无法stop-all.sh停止 | itwye's 博客</title>
+  <title>通过thrift api框架访问hdfs | itwye's 博客</title>
   
 
 
@@ -259,7 +259,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2012/07/20/hadoop运行一段时间后,无法stop-all.sh停止/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2013/09/13/通过thrift api框架访问hdfs/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="itwye">
@@ -276,7 +276,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">hadoop运行一段时间后,无法stop-all.sh停止</h1>
+          <h1 class="post-title" itemprop="name headline">通过thrift api框架访问hdfs</h1>
         
 
         <div class="post-meta">
@@ -288,8 +288,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2012-07-20T09:28:54+08:00">
-                2012-07-20
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2013-09-13T14:25:54+08:00">
+                2013-09-13
               </time>
             
 
@@ -349,18 +349,27 @@
 
       
         <blockquote>
-<h4 id="hadoop运行一段时间后-无法stop-all-sh停止"><a href="#hadoop运行一段时间后-无法stop-all-sh停止" class="headerlink" title="hadoop运行一段时间后,无法stop-all.sh停止"></a>hadoop运行一段时间后,无法stop-all.sh停止</h4></blockquote>
-<p>在hadoop集群运行一段时间后 ，无法通过stop-all.sh关闭hadoop.</p>
+<h4 id="通过thrift-api框架访问hdfs"><a href="#通过thrift-api框架访问hdfs" class="headerlink" title="通过thrift api框架访问hdfs"></a>通过thrift api框架访问hdfs</h4></blockquote>
+<p>可在任何客户端通过thrift框架管理hdfs上数据.</p>
+<p>注: start_thrift_server.sh不一定要在namenode上运行,datanodes上皆运行.</p>
+<p>以下操作均在namenode(192.168.0.112)下执行.</p>
 <blockquote>
-<h4 id="From-Google"><a href="#From-Google" class="headerlink" title="From Google"></a>From Google</h4></blockquote>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line">今天发现一个问题，当hadoop集群运行一段时间以后，无法停止服务。执行stop-all的时候提示 no tasktracker to stop ，no  datanode to stop。</div><div class="line">而当我把所有节点手动kill掉以后，执行start-all和stop-all均没有问题。在邮件群组里问 了一下，最后结论如下：</div><div class="line"></div><div class="line">stop-all.sh会调用stop-mapred.sh和 stop-dfs.sh去停止jobtracker, tasktrackers; namenode, datanodes。</div><div class="line"></div><div class="line">Jobtracker和namenode的停止是在本地通过调用hadoop-daemon完成的，而tasktracker,和datanode 的停止是通过调用hadoop-daemons来完成的。</div><div class="line"></div><div class="line">Hadoop-daemon实质上是ssh到每一个slave去执行一个当地的hadoop- daemon命令，比如：hadoop-daemon stop datanoade。</div><div class="line">Hadoop-daemon  stop command会通过kill -0 `cat command.pid` 来测试进程是否存在，如果这个测试中有错误产生，就会报”no command to stop ”</div><div class="line"></div><div class="line">可能原因： pid 文件丢了，导致 hadoop-daemon.sh stop XXX 时找不到进程号。</div><div class="line">解决办法：默认 pid 文件放在 /tmp 目录下，不太安全。可以在 conf/hadoop-env.sh 里设置 HADOOP_PID_DIR 环 境变量改变 pid文件的存放目录.</div></pre></td></tr></table></figure>
+<h4 id="编译相关类"><a href="#编译相关类" class="headerlink" title="编译相关类"></a>编译相关类</h4></blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">cloudiyadatauser$ cd hadoop  &amp;&amp; ant compile</div><div class="line">cloudiyadatauser$ cd /opt/cloudiyaDataCluster/hadoop/src/contrib/thriftfs &amp;&amp; ant compile &amp;&amp; cd -</div></pre></td></tr></table></figure>
 <blockquote>
-<h4 id="实际解决"><a href="#实际解决" class="headerlink" title="实际解决"></a>实际解决</h4></blockquote>
-<p>在发现hadoop集群无法关闭后，可以在原放pid文件目录下手动新建各进程的pid文件,如:</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">-rw-rw-r-- 1 hadoop-user hadoop-user 6 May  5 13:12 hadoop-hadoop-user-jobtracker.pid</div><div class="line">-rw-rw-r-- 1 hadoop-user hadoop-user 6 May  5 13:12 hadoop-hadoop-user-namenode.pid</div><div class="line">-rw-rw-r-- 1 hadoop-user hadoop-user 6 May  5 13:12 hadoop-hadoop-user-secondarynamenode.pid</div></pre></td></tr></table></figure>
-<p>再通过jps程序查到现在正在运行的各进程的进程号.</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">13916 SecondaryNameNode</div><div class="line">13739 NameNode</div><div class="line">19243 Jps</div><div class="line">14031 JobTracker</div></pre></td></tr></table></figure>
-<p>将进程号写入新建的pid文件，在集群各节点依次照做，最后stop-all.sh ,看是不是可以关闭了。</p>
+<h4 id="修改启动文件"><a href="#修改启动文件" class="headerlink" title="修改启动文件"></a>修改启动文件</h4></blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">cloudiyadatauser$ vi /opt/cloudiyaDataCluster/hadoop/src/contrib/thriftfs/scripts/start_thrift_server.sh</div><div class="line">增加:</div><div class="line">#export the hadoop configuration ,avoiding local filesystem default</div><div class="line">CLASSPATH=$CLASSPATH:$TOP/conf</div><div class="line"></div><div class="line">cloudiyadatauser$ chmod +x  /opt/cloudiyaDataCluster/hadoop/src/contrib/thriftfs/scripts/start_thrift_server.sh</div></pre></td></tr></table></figure>
+<blockquote>
+<h4 id="启动HadoopThriftServer"><a href="#启动HadoopThriftServer" class="headerlink" title="启动HadoopThriftServer"></a>启动HadoopThriftServer</h4></blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">cloudiyadatauser$ /usr/bin/nohup  /bin/sh  /opt/cloudiyaDataCluster/hadoop/src/contrib/thriftfs/scripts/ start_thrift_server.sh 9999 &amp;</div></pre></td></tr></table></figure>
+<blockquote>
+<h4 id="检查是否启动成功"><a href="#检查是否启动成功" class="headerlink" title="检查是否启动成功"></a>检查是否启动成功</h4></blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">cloudiyadatauser$ /opt/cloudiyaDataCluster/jdk/bin/jps</div><div class="line">28963 HadoopThriftServer</div><div class="line">7958 Jps</div><div class="line">24407 NameNode</div><div class="line">24920 JobTracker</div></pre></td></tr></table></figure>
+<blockquote>
+<h4 id="客户端设置"><a href="#客户端设置" class="headerlink" title="客户端设置"></a>客户端设置</h4></blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">#mkdir  HDFSClient  &amp;&amp; cd HDFSClient</div><div class="line">#scp -r  192.168.0.112: /opt/cloudiyaDataCluster/hadoop/src/contrib/thriftfs/gen-py   ./</div><div class="line">#scp  192.168.0.112:/opt/cloudiyaDataCluster/hadoop/src/contrib/thriftfs/scripts/hdfs.py  ./</div></pre></td></tr></table></figure>
+<p>操作HDFS数据示例:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line">import sys</div><div class="line">sys.path.append(&quot;gen-py&quot;)</div><div class="line">from hdfs import hadoopthrift_cli</div><div class="line"></div><div class="line">host = &quot;192.168.0.112&quot;</div><div class="line">port = &quot;9999&quot;</div><div class="line"></div><div class="line">c = hadoopthrift_cli(host,port)</div><div class="line">c.connect()</div><div class="line">#c.do_ls(&quot;/l123YDT&quot;)</div><div class="line"></div><div class="line">c.do_exists(&quot;/l123YDT&quot;)</div><div class="line"></div><div class="line">c.do_put(&quot;/tmp/testfile.mp4  /l123YDT/testfile.mp4&quot;)</div><div class="line"></div><div class="line">c.do_ls(&quot;/l123YDT&quot;)</div></pre></td></tr></table></figure>
 
       
     </div>
@@ -397,8 +406,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2012/07/06/Namenode Manual Failover/" rel="next" title="Namenode Manual Failover">
-                <i class="fa fa-chevron-left"></i> Namenode Manual Failover
+              <a href="/2013/09/12/从hadoop-1.0.3升级到hadoop-1.2.1/" rel="next" title="从hadoop-1.0.3升级到hadoop-1.2.1">
+                <i class="fa fa-chevron-left"></i> 从hadoop-1.0.3升级到hadoop-1.2.1
               </a>
             
           </div>
@@ -407,8 +416,8 @@
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2012/12/05/Fuse-dfs与Hadoop client读写HDFS文件性能比较(多用户并发读)/" rel="prev" title="Fuse-dfs与Hadoop client读写HDFS文件性能比较(多用户并发读)">
-                Fuse-dfs与Hadoop client读写HDFS文件性能比较(多用户并发读) <i class="fa fa-chevron-right"></i>
+              <a href="/2017/09/13/我的第一篇文章/" rel="prev" title="my first blog">
+                my first blog <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -544,7 +553,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#hadoop运行一段时间后-无法stop-all-sh停止"><span class="nav-number">1.</span> <span class="nav-text">hadoop运行一段时间后,无法stop-all.sh停止</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#From-Google"><span class="nav-number">2.</span> <span class="nav-text">From Google</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#实际解决"><span class="nav-number">3.</span> <span class="nav-text">实际解决</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#通过thrift-api框架访问hdfs"><span class="nav-number">1.</span> <span class="nav-text">通过thrift api框架访问hdfs</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#编译相关类"><span class="nav-number">2.</span> <span class="nav-text">编译相关类</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#修改启动文件"><span class="nav-number">3.</span> <span class="nav-text">修改启动文件</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#启动HadoopThriftServer"><span class="nav-number">4.</span> <span class="nav-text">启动HadoopThriftServer</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#检查是否启动成功"><span class="nav-number">5.</span> <span class="nav-text">检查是否启动成功</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#客户端设置"><span class="nav-number">6.</span> <span class="nav-text">客户端设置</span></a></li></ol></div>
             
 
           </div>

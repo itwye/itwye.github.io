@@ -1,0 +1,843 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.2" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="hadoop,hdfs,大数据,mapreduce," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.2" />
+
+
+
+
+
+
+<meta name="description" content="前言 如果主节点挂掉了，硬盘数据需要时间恢复或者不能恢复了，现在又想立刻恢复HDFS，这个时候就可以import checkpoint。步骤如下：  拿一台和原来机器一样的机器，包括配置和文件，一般来说最快的是拿你节点机器中的一台，立马能用（部分配置要改成NameNode的配置） 创建一个空的文件夹，该文件夹就是配置文件中dfs.name.dir所指向的文件夹。 拷贝你的secondary Na">
+<meta name="keywords" content="hadoop,hdfs,大数据,mapreduce">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Namenode Manual Failover">
+<meta property="og:url" content="http://yoursite.com/2012/07/06/Namenode Manual Failover/index.html">
+<meta property="og:site_name" content="itwye&#39;s 博客">
+<meta property="og:description" content="前言 如果主节点挂掉了，硬盘数据需要时间恢复或者不能恢复了，现在又想立刻恢复HDFS，这个时候就可以import checkpoint。步骤如下：  拿一台和原来机器一样的机器，包括配置和文件，一般来说最快的是拿你节点机器中的一台，立马能用（部分配置要改成NameNode的配置） 创建一个空的文件夹，该文件夹就是配置文件中dfs.name.dir所指向的文件夹。 拷贝你的secondary Na">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2012-07-06T01:18:54.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Namenode Manual Failover">
+<meta name="twitter:description" content="前言 如果主节点挂掉了，硬盘数据需要时间恢复或者不能恢复了，现在又想立刻恢复HDFS，这个时候就可以import checkpoint。步骤如下：  拿一台和原来机器一样的机器，包括配置和文件，一般来说最快的是拿你节点机器中的一台，立马能用（部分配置要改成NameNode的配置） 创建一个空的文件夹，该文件夹就是配置文件中dfs.name.dir所指向的文件夹。 拷贝你的secondary Na">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    version: '5.1.2',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2012/07/06/Namenode Manual Failover/"/>
+
+
+
+
+
+  <title>Namenode Manual Failover | itwye's 博客</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">itwye's 博客</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2012/07/06/Namenode Manual Failover/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="itwye">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="itwye's 博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">Namenode Manual Failover</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2012-07-06T09:18:54+08:00">
+                2012-07-06
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/hadoop/" itemprop="url" rel="index">
+                    <span itemprop="name">hadoop</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <blockquote>
+<h4 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h4></blockquote>
+<p>如果主节点挂掉了，硬盘数据需要时间恢复或者不能恢复了，现在又想立刻恢复HDFS，这个时候就可以import checkpoint。步骤如下：</p>
+<ul>
+<li>拿一台和原来机器一样的机器，包括配置和文件，一般来说最快的是拿你节点机器中的一台，立马能用（部分配置要改成NameNode的配置）</li>
+<li>创建一个空的文件夹，该文件夹就是配置文件中dfs.name.dir所指向的文件夹。</li>
+<li>拷贝你的secondary NameNode checkpoint出来的文件，到某个文件夹，该文件夹为fs.checkpoint.dir指向的文件夹</li>
+<li>执行命令bin/hadoop namenode -importCheckpoint</li>
+</ul>
+<p>这样NameNode会读取checkpoint文件，保存到dfs.name.dir。但是如果你的dfs.name.dir包含合法的fsimage，是会执行失败的。<br>因为NameNode会检查fs.checkpoint.dir目录下镜像的一致性，但是不会去改动它。 </p>
+<p>以上是Namenode Manual Failover的依据,来自Google. </p>
+<p>以下是我实验的过程！</p>
+<blockquote>
+<h4 id="实验过程"><a href="#实验过程" class="headerlink" title="实验过程"></a>实验过程</h4><h5 id="旧结构"><a href="#旧结构" class="headerlink" title="旧结构"></a>旧结构</h5></blockquote>
+<table>
+<thead>
+<tr>
+<th>node</th>
+<th>ipaddress</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>namenode</td>
+<td>10.2.10.16</td>
+</tr>
+<tr>
+<td>snn</td>
+<td>10.2.10.17 </td>
+</tr>
+<tr>
+<td>datanode</td>
+<td>10.2.10.18 </td>
+</tr>
+<tr>
+<td>datanode</td>
+<td>10.2.10.19 </td>
+</tr>
+<tr>
+<td>datanode</td>
+<td>10.2.10.20 </td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<h5 id="新结构"><a href="#新结构" class="headerlink" title="新结构"></a>新结构</h5></blockquote>
+<table>
+<thead>
+<tr>
+<th>node</th>
+<th>ipaddress</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>namenode and datanode</td>
+<td>10.2.10.18 </td>
+</tr>
+<tr>
+<td>snn</td>
+<td>10.2.10.17</td>
+</tr>
+<tr>
+<td>datanode</td>
+<td>10.2.10.19 </td>
+</tr>
+<tr>
+<td>datanode</td>
+<td>10.2.10.20 </td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<h5 id="过程"><a href="#过程" class="headerlink" title="过程"></a>过程</h5><h6 id="1-关闭相关进程"><a href="#1-关闭相关进程" class="headerlink" title="(1)关闭相关进程"></a>(1)关闭相关进程</h6></blockquote>
+<p>一般情况下，在namenode节点down后，其它节点相关进程仍在运行，<br>在failover前，需要把这些进程先关闭掉hadoop-user$ hadoop-daemon.sh stop datanode|tasktracker|secondarynamenode</p>
+<blockquote>
+<h6 id="2-在新namenode-10-2-10-18上生成hadoopuser的公匙"><a href="#2-在新namenode-10-2-10-18上生成hadoopuser的公匙" class="headerlink" title="(2)在新namenode 10.2.10.18上生成hadoopuser的公匙"></a>(2)在新namenode 10.2.10.18上生成hadoopuser的公匙</h6></blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">hadoop-user$ ssh-keygen -t  rsa</div></pre></td></tr></table></figure>
+<blockquote>
+<h6 id="3-分发新namenode公匙到其它节点"><a href="#3-分发新namenode公匙到其它节点" class="headerlink" title="(3)分发新namenode公匙到其它节点"></a>(3)分发新namenode公匙到其它节点</h6></blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">hadoop-user$ ssh-copy-id  10.2.10.17</div><div class="line">hadoop-user$ ssh-copy-id  10.2.10.18</div><div class="line">hadoop-user$ ssh-copy-id  10.2.10.19</div><div class="line">hadoop-user$ ssh-copy-id  10.2.10.20</div></pre></td></tr></table></figure>
+<blockquote>
+<h6 id="4-在新namenode-10-2-10-18上做如下动作"><a href="#4-在新namenode-10-2-10-18上做如下动作" class="headerlink" title="(4)在新namenode 10.2.10.18上做如下动作"></a>(4)在新namenode 10.2.10.18上做如下动作</h6></blockquote>
+<ul>
+<li><p>修改core-site.xml</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">fs.default.name  --&gt;  hdfs://10.2.10.18:50081</div></pre></td></tr></table></figure>
+</li>
+<li><p>依据dfs.name.dir和fs.checkpoint.dir指定的目录在10.2.10.18上创建相应目录</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">&lt;property&gt;</div><div class="line">&lt;name&gt;fs.checkpoint.dir&lt;/name&gt;</div><div class="line">&lt;value&gt;/hadoopdata/snn&lt;/value&gt;</div><div class="line">&lt;/property&gt;</div><div class="line">&lt;property&gt;</div><div class="line">&lt;name&gt;dfs.name.dir&lt;/name&gt;</div><div class="line">&lt;value&gt;/hadoopdata/dfs/name&lt;/value&gt;</div><div class="line">&lt;/property&gt;</div></pre></td></tr></table></figure>
+</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">hadoop-user$mkdir -p  /hadoopdata/snn</div><div class="line">hadoop-user$mkdir -p  /hadoopdata/dfs/name</div></pre></td></tr></table></figure>
+<ul>
+<li><p>修改mapred-site.xml</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">mapred.job.tracker -&gt; 10.2.10.18:50082</div></pre></td></tr></table></figure>
+</li>
+<li><p>修改hdfs-site.xml</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">dfs.http.address  -&gt;  10.2.10.18:50071</div><div class="line">dfs.secondary.http.address -&gt; 10.2.10.17:50090</div></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>注：上面两参数对snn do checkpoint很重要。</p>
+<ul>
+<li><p>master, slaves, include文件在此都不需更改</p>
+</li>
+<li><p>将原snn 10.2.10.17下fs.checkpoint.dir 指定的目录/hadoopdata/snn的所有文件copy到10.2.10.18下的/hadoopdata/snn目录下.</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">hadoop-user$ scp -r hadoop-user@10.2.10.17:/hadoopdata/snn/*   /hadoopdata/snn</div></pre></td></tr></table></figure>
+</li>
+<li><p>将新namenode 10.2.10.18下conf目录覆盖到其它节点</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">hadoop-user$ scp -r /opt/hadoop/hadoop/conf/*   hadoop-user@10.2.10.17:/opt/hadoop/hadoop/conf/</div><div class="line">hadoop-user$ scp -r /opt/hadoop/hadoop/conf/*   hadoop-user@10.2.10.19:/opt/hadoop/hadoop/conf/</div><div class="line">hadoop-user$ scp -r /opt/hadoop/hadoop/conf/*   hadoop-user@10.2.10.20:/opt/hadoop/hadoop/conf/</div></pre></td></tr></table></figure>
+</li>
+<li><p>执行命令</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">hadoop-user$ /opt/hadoop/hadoop/bin/hadoop namenode -importCheckpoint</div></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>检查在/hadoopdata/dfs/name是否已经有了元数据信息，如有先关闭namenode进程，再start-all.sh启动整个集群</p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/hadoop/" rel="tag"># hadoop</a>
+          
+            <a href="/tags/hdfs/" rel="tag"># hdfs</a>
+          
+            <a href="/tags/大数据/" rel="tag"># 大数据</a>
+          
+            <a href="/tags/mapreduce/" rel="tag"># mapreduce</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2012/06/20/SecondaryNamenode Checkpoint 故障一例/" rel="next" title="SecondaryNamenode Checkpoint 故障一例">
+                <i class="fa fa-chevron-left"></i> SecondaryNamenode Checkpoint 故障一例
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2012/07/20/hadoop运行一段时间后,无法stop-all.sh停止/" rel="prev" title="hadoop运行一段时间后,无法stop-all.sh停止">
+                hadoop运行一段时间后,无法stop-all.sh停止 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div id="uyan_frame"></div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          
+            <p class="site-author-name" itemprop="name">itwye</p>
+            <p class="site-description motion-element" itemprop="description"></p>
+        </div>
+
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+            
+              <a href="/archives/">
+            
+                <span class="site-state-item-count">12</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-categories">
+              
+                <span class="site-state-item-count">2</span>
+                <span class="site-state-item-name">分类</span>
+              
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              
+                <span class="site-state-item-count">8</span>
+                <span class="site-state-item-name">标签</span>
+              
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#前言"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#实验过程"><span class="nav-number">2.</span> <span class="nav-text">实验过程</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#旧结构"><span class="nav-number">2.1.</span> <span class="nav-text">旧结构</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#新结构"><span class="nav-number">2.2.</span> <span class="nav-text">新结构</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#过程"><span class="nav-number">2.3.</span> <span class="nav-text">过程</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#1-关闭相关进程"><span class="nav-number">2.3.1.</span> <span class="nav-text">(1)关闭相关进程</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#2-在新namenode-10-2-10-18上生成hadoopuser的公匙"><span class="nav-number">2.3.2.</span> <span class="nav-text">(2)在新namenode 10.2.10.18上生成hadoopuser的公匙</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#3-分发新namenode公匙到其它节点"><span class="nav-number">2.3.3.</span> <span class="nav-text">(3)分发新namenode公匙到其它节点</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#4-在新namenode-10-2-10-18上做如下动作"><span class="nav-number">2.3.4.</span> <span class="nav-text">(4)在新namenode 10.2.10.18上做如下动作</span></a></li></ol></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">itwye</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+  <span class="post-meta-divider">|</span>
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">NexT.Mist</a> v5.1.2</div>
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.2"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.2"></script>
+
+
+
+  
+  
+
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.2"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.2"></script>
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.2"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.2"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.2"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+    
+
+    
+      <!-- UY BEGIN -->
+      <script type="text/javascript" src="http://v2.uyan.cc/code/uyan.js?uid=2144454"></script>
+      <!-- UY END -->
+    
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
