@@ -103,12 +103,12 @@
 <meta property="og:site_name" content="itwye&#39;s 博客">
 <meta property="og:description" content="设置默认map和reducer数 在提交作业的客户端设置默认map和reducer数。  缘起 在用mapreducer处理数据的过程中碰到这样一个事，先把上下文说下. 提交作业命令是:1234567/opt/cloudiyaDataCluster/hadoop/bin/hadoop \jar /opt/cloudiyaDataCluster/hadoop/contrib/streaming/h">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:image" content="http://yoursite.com/images/设置默认map和reducer数.jpg">
+<meta property="og:image" content="http://yoursite.com/images/设置默认map和reducer数1.jpg">
 <meta property="og:updated_time" content="2013-02-20T08:25:54.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="设置默认map和reducer数">
 <meta name="twitter:description" content="设置默认map和reducer数 在提交作业的客户端设置默认map和reducer数。  缘起 在用mapreducer处理数据的过程中碰到这样一个事，先把上下文说下. 提交作业命令是:1234567/opt/cloudiyaDataCluster/hadoop/bin/hadoop \jar /opt/cloudiyaDataCluster/hadoop/contrib/streaming/h">
-<meta name="twitter:image" content="http://yoursite.com/images/设置默认map和reducer数.jpg">
+<meta name="twitter:image" content="http://yoursite.com/images/设置默认map和reducer数1.jpg">
 
 
 
@@ -360,7 +360,7 @@
 <p>待处理数据目录是:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">&quot;hdfs://192.168.0.112:50081/9527T3n/inputfiles/&quot;下只有一个video_1文件，该文件副本为4.大小小于1KB,块大小设置是128MB</div></pre></td></tr></table></figure></p>
 <p>在客户端开始提交作业后,在192.168.0.112:50072 web端和jobtracker日志都可观测到启用了3个map.</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">2013-02-20 12:48:56,864 INFO org.apache.hadoop.mapred.JobInProgress: job_201302191802_0016: nMaps=3 nReduces=1 max=-1</div></pre></td></tr></table></figure>
-<p><img src="/images/设置默认map和reducer数.jpg" alt=""></p>
+<p><img src="/images/设置默认map和reducer数1.jpg" alt=""></p>
 <p>但实际上只需一个map就行了，video_1不到1kB，只能分一个块，</p>
 <p>如果硬是启用3个map , 强行对video_1进行切分(如上图) ，则后面的两个map是读不到数据的.</p>
 <blockquote>
