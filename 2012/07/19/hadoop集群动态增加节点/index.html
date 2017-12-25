@@ -95,18 +95,18 @@
 
 
 
-<meta name="description" content="从hadoop-1.0.3升级到hadoop-1.2.1   将生产环境下hadoop-1.0.3升级到hadoop-1.2.1,且数据不丢失.  hadoop安装目录结构 12345[cloudiyadatauser@c01 opt]$ ls -al /opt/cloudiyaDataCluster/drwxr-xr-x  18 cloudiyadatauser cloudiyadatause">
+<meta name="description" content="hadoop集群动态增加节点  将新节点的网络地址或域名加入include文件中  include文件只存在于namenode本地12345678910hdfs-site.xml&amp;lt;property&amp;gt;&amp;lt;name&amp;gt;dfs.hosts&amp;lt;/name&amp;gt;&amp;lt;value&amp;gt;/usr/local/src/lanhadoop/hadoopv101/conf/includ">
 <meta name="keywords" content="hadoop,hdfs,大数据,mapreduce">
 <meta property="og:type" content="article">
-<meta property="og:title" content="从hadoop-1.0.3升级到hadoop-1.2.1">
-<meta property="og:url" content="http://yoursite.com/2013/09/12/从hadoop-1.0.3升级到hadoop-1.2.1/index.html">
+<meta property="og:title" content="hadoop集群动态增加节点">
+<meta property="og:url" content="http://yoursite.com/2012/07/19/hadoop集群动态增加节点/index.html">
 <meta property="og:site_name" content="itwye&#39;s 博客">
-<meta property="og:description" content="从hadoop-1.0.3升级到hadoop-1.2.1   将生产环境下hadoop-1.0.3升级到hadoop-1.2.1,且数据不丢失.  hadoop安装目录结构 12345[cloudiyadatauser@c01 opt]$ ls -al /opt/cloudiyaDataCluster/drwxr-xr-x  18 cloudiyadatauser cloudiyadatause">
+<meta property="og:description" content="hadoop集群动态增加节点  将新节点的网络地址或域名加入include文件中  include文件只存在于namenode本地12345678910hdfs-site.xml&amp;lt;property&amp;gt;&amp;lt;name&amp;gt;dfs.hosts&amp;lt;/name&amp;gt;&amp;lt;value&amp;gt;/usr/local/src/lanhadoop/hadoopv101/conf/includ">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2013-09-12T01:18:54.000Z">
+<meta property="og:updated_time" content="2012-07-19T03:09:54.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="从hadoop-1.0.3升级到hadoop-1.2.1">
-<meta name="twitter:description" content="从hadoop-1.0.3升级到hadoop-1.2.1   将生产环境下hadoop-1.0.3升级到hadoop-1.2.1,且数据不丢失.  hadoop安装目录结构 12345[cloudiyadatauser@c01 opt]$ ls -al /opt/cloudiyaDataCluster/drwxr-xr-x  18 cloudiyadatauser cloudiyadatause">
+<meta name="twitter:title" content="hadoop集群动态增加节点">
+<meta name="twitter:description" content="hadoop集群动态增加节点  将新节点的网络地址或域名加入include文件中  include文件只存在于namenode本地12345678910hdfs-site.xml&amp;lt;property&amp;gt;&amp;lt;name&amp;gt;dfs.hosts&amp;lt;/name&amp;gt;&amp;lt;value&amp;gt;/usr/local/src/lanhadoop/hadoopv101/conf/includ">
 
 
 
@@ -136,13 +136,13 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/2013/09/12/从hadoop-1.0.3升级到hadoop-1.2.1/"/>
+  <link rel="canonical" href="http://yoursite.com/2012/07/19/hadoop集群动态增加节点/"/>
 
 
 
 
 
-  <title>从hadoop-1.0.3升级到hadoop-1.2.1 | itwye's 博客</title>
+  <title>hadoop集群动态增加节点 | itwye's 博客</title>
   
 
 
@@ -259,7 +259,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2013/09/12/从hadoop-1.0.3升级到hadoop-1.2.1/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2012/07/19/hadoop集群动态增加节点/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="itwye">
@@ -276,7 +276,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">从hadoop-1.0.3升级到hadoop-1.2.1</h1>
+          <h1 class="post-title" itemprop="name headline">hadoop集群动态增加节点</h1>
         
 
         <div class="post-meta">
@@ -288,8 +288,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2013-09-12T09:18:54+08:00">
-                2013-09-12
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2012-07-19T11:09:54+08:00">
+                2012-07-19
               </time>
             
 
@@ -349,42 +349,48 @@
 
       
         <blockquote>
-<h4 id="从hadoop-1-0-3升级到hadoop-1-2-1"><a href="#从hadoop-1-0-3升级到hadoop-1-2-1" class="headerlink" title="从hadoop-1.0.3升级到hadoop-1.2.1"></a>从hadoop-1.0.3升级到hadoop-1.2.1</h4></blockquote>
-<p>  将生产环境下hadoop-1.0.3升级到hadoop-1.2.1,且数据不丢失.</p>
+<h4 id="hadoop集群动态增加节点"><a href="#hadoop集群动态增加节点" class="headerlink" title="hadoop集群动态增加节点"></a>hadoop集群动态增加节点</h4></blockquote>
+<ul>
+<li>将新节点的网络地址或域名加入include文件中</li>
+</ul>
+<p>include文件只存在于namenode本地<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">hdfs-site.xml</div><div class="line">&lt;property&gt;</div><div class="line">&lt;name&gt;dfs.hosts&lt;/name&gt;</div><div class="line">&lt;value&gt;/usr/local/src/lanhadoop/hadoopv101/conf/include&lt;/value&gt;</div><div class="line">&lt;/property&gt;</div><div class="line">mapred-site.xml</div><div class="line">&lt;property&gt;</div><div class="line">&lt;name&gt;mapred.hosts&lt;/name&gt;</div><div class="line">&lt;value&gt;/usr/local/src/lanhadoop/hadoopv101/conf/include&lt;/value&gt;</div><div class="line">&lt;/property&gt;</div></pre></td></tr></table></figure></p>
+<ul>
+<li>在 namenode下，运行以下指令，更新namenode经过审核的一系列datanode集合。</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$hadoop  dfsadmin -refreshNodes</div></pre></td></tr></table></figure>
+<ul>
+<li><p>在namenode下，更新slaves文件，将新节点域名或IP加入，这样hadoop控制脚本将会将新节点包括在未来的操作之下。</p>
+</li>
+<li><p>在新节点启动datanode</p>
+</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$hadoop-daemon.sh start  datanode</div></pre></td></tr></table></figure>
+<p>如果新datanode的IP或域名没有加入include中，datanode将不会启动，在log你会看到如下日志</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">2012-05-08 16:11:28,018 ERROR org.apache.hadoop.hdfs.server.datanode.DataNode: org.apache.hadoop.ipc.RemoteException: org.apache.hadoop.hdfs.server.protocol.DisallowedDatanodeException: </div><div class="line">Datanode denied communication with namenode: slaveone.hadoop.cloudiya.com:50010</div></pre></td></tr></table></figure>
+<ul>
+<li>在新节点启动tasktracker</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$hadoop-daemon.sh  start  tasktracker</div></pre></td></tr></table></figure>
+<ul>
+<li>检查新的datanode和tasktracker是否启动成功。</li>
+</ul>
+<p>注：<br>hadoop集群中的各节点都需要能互相ping通的 ，<br>如果集群配置的用的是各节点的域名，那需在各节点设置正确的DNS或者在每节点/etc/hosts做正确配置。<br>如果你的集群配置都是采用的IP地址，那只要能互相ping通就好。</p>
+<ul>
+<li>集群重新平衡</li>
+</ul>
+<p>以免旧块都集中在几台旧datanode上，负载也就集中在那几台datanode了， 重平衡后 ，一些块移动到新的datanode,负载也就均衡了.</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$/usr/local/src/lanhadoop/hadoopv101/bin/start-balancer.sh  -threshold 5  （默认是10%）</div></pre></td></tr></table></figure>
 <blockquote>
-<h4 id="hadoop安装目录结构"><a href="#hadoop安装目录结构" class="headerlink" title="hadoop安装目录结构"></a>hadoop安装目录结构</h4></blockquote>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">[cloudiyadatauser@c01 opt]$ ls -al /opt/cloudiyaDataCluster/</div><div class="line">drwxr-xr-x  18 cloudiyadatauser cloudiyadatauser 4096 Sep 12 17:07 hadoop</div><div class="line">drwxr-xr-x  15 cloudiyadatauser cloudiyadatauser 4096 Sep 12 10:31 hadoop-1.2.1</div><div class="line">drwxr-xr-x   8 cloudiyadatauser cloudiyadatauser 4096 May  3  2012 jdk</div><div class="line">drwxrwxr-x   3 cloudiyadatauser cloudiyadatauser 4096 Sep 12 17:09 UpgradeBackup</div></pre></td></tr></table></figure>
-<p>以下所有操作需在namenode下，以hadoop管理员账号进行，我的管理员账号是cloudiyadatauser。</p>
+<h4 id="hadoop集群均衡器"><a href="#hadoop集群均衡器" class="headerlink" title="hadoop集群均衡器"></a>hadoop集群均衡器</h4><h5 id="负载均衡阈值"><a href="#负载均衡阈值" class="headerlink" title="负载均衡阈值"></a>负载均衡阈值</h5></blockquote>
+<p>在负载均衡时，有个可选的参数threshold，它代表：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">datanode的使用率（该节点上已使用的空间与空间容量之间的比率）与集群的使用率（集群中已使用的空间与集群的空间容量之间的比率）非常接近，差距不超过给定的阀值。</div></pre></td></tr></table></figure></p>
 <blockquote>
-<h4 id="确保前一次升级已完成"><a href="#确保前一次升级已完成" class="headerlink" title="确保前一次升级已完成"></a>确保前一次升级已完成</h4></blockquote>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">$/opt/cloudiyaDataCluster/hadoop/bin/hadoop dfsadmin -upgradeProgress status</div><div class="line">There are no upgrades in progress</div></pre></td></tr></table></figure>
+<h5 id="均衡器工作过程"><a href="#均衡器工作过程" class="headerlink" title="均衡器工作过程"></a>均衡器工作过程</h5></blockquote>
+<p>均衡器程序（balancer）程序是一个hadoop守护进程，它将块从忙碌的datanode移动到相对清闲的datanode，同时坚持副本放置策略，将副本分散到不同的机架，以降低数据损坏率，它不断移动块，直到集群达到平衡。</p>
 <blockquote>
-<h4 id="停止hadoop"><a href="#停止hadoop" class="headerlink" title="停止hadoop"></a>停止hadoop</h4></blockquote>
-<p>在升级过程中停止hadoop, 需确保各节点相关进程都已关闭.<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$/opt/cloudiyaDataCluster/hadoop/bin/stop-all.sh</div></pre></td></tr></table></figure></p>
-<blockquote>
-<h4 id="备份数据"><a href="#备份数据" class="headerlink" title="备份数据"></a>备份数据</h4></blockquote>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">$hadoop fs -lsr /  &gt; UpgradeBackup/dfs-v-old-lsr-1.log</div><div class="line">$hadoop fsck / &gt; UpgradeBackup/dfs-v-old-fsck-1.log</div><div class="line">$hadoop dfsadmin -report &gt; UpgradeBackup/dfs-v-old-report-1.log</div><div class="line">$ cp -r $&#123;dfs.name.dir&#125;  UpgradeBackup/</div></pre></td></tr></table></figure>
-<blockquote>
-<h4 id="更改目录"><a href="#更改目录" class="headerlink" title="更改目录"></a>更改目录</h4></blockquote>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">$mv  hadoop  hadoop-1.0.3</div><div class="line">$mv  hadoop-1.2.1/conf   hadoop-1.2.1/conf.old</div><div class="line">$cp -r hadoop-1.0.3/conf  hadoop-1.2.1/</div><div class="line">$mv hadoop-1.2.1 hadoop</div></pre></td></tr></table></figure>
-<p>各节点做同样操作，简单方法是在namenode配置好后, scp -r 到各个节点。</p>
-<blockquote>
-<h4 id="启动升级"><a href="#启动升级" class="headerlink" title="启动升级"></a>启动升级</h4></blockquote>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$/opt/cloudiyaDataCluster/hadoop/bin/start-dfs.sh -upgrade</div></pre></td></tr></table></figure>
-<blockquote>
-<h4 id="查看升级状态"><a href="#查看升级状态" class="headerlink" title="查看升级状态"></a>查看升级状态</h4></blockquote>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">$/opt/cloudiyaDataCluster/hadoop/bin/hadoop dfsadmin -upgradeProgress status</div><div class="line">Upgrade for version -41 has been completed.</div><div class="line">Upgrade is not finalized.</div></pre></td></tr></table></figure>
-<p>升级完成!</p>
-<blockquote>
-<h4 id="后记"><a href="#后记" class="headerlink" title="后记"></a>后记</h4></blockquote>
-<p>当hadoop升级完成后,hadoop依旧保留着旧版本的有关信息，以便你可以方便的对hdfs进行降级操作.</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$/opt/cloudiyaDataCluster/hadoop/bin/start-dfs.sh -rollback</div></pre></td></tr></table></figure>
-<p>升级完成,Hadoop一次只保存一个版本的备份,当新版本运行几天以后还是没有出现什么问题，你就可以使用运行一段时间后,没有问题再执行升级终结操作  </p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">bin/hadoop dfsadmin -finalizeUpgrade</div></pre></td></tr></table></figure>
-<p>该命令把旧版本的备份从系统中删掉了。删除以后rollback 命令就失效了。</p>
-<blockquote>
-<h4 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h4></blockquote>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">http://www.cnblogs.com/ggjucheng/archive/2012/04/22/2465649.html</div><div class="line">http://blog.pureisle.net/archives/1845.html</div><div class="line">http://trac.nchc.org.tw/cloud/wiki/0428Hadoop_Lab4</div></pre></td></tr></table></figure>
+<h5 id="复制数据带宽限制"><a href="#复制数据带宽限制" class="headerlink" title="复制数据带宽限制"></a>复制数据带宽限制</h5></blockquote>
+<p>在不同节点间复制复制数据的带宽是有限制的，默认值是1MB/s,可通过hdfs-site.xml进行调节。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">&lt;property&gt;  　　</div><div class="line">        &lt;name&gt;dfs.balance.bandwidthPerSec&lt;/name&gt;  　　</div><div class="line">        &lt;value&gt;1048576&lt;/value&gt;  　　</div><div class="line">        &lt;description&gt;  　　　　</div><div class="line">        Specifies the maximum amount of bandwidth that each datanode  　　　　</div><div class="line">        can utilize for the balancing purpose in term of  　　　　</div><div class="line">        the number of bytes per second.  　　</div><div class="line">        &lt;/description&gt;  </div><div class="line">&lt;/property&gt;</div></pre></td></tr></table></figure>
+
       
     </div>
     
@@ -420,8 +426,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2013/02/20/设置默认map和reducer数/" rel="next" title="设置默认map和reducer数">
-                <i class="fa fa-chevron-left"></i> 设置默认map和reducer数
+              <a href="/2012/07/06/Namenode Manual Failover/" rel="next" title="Namenode Manual Failover">
+                <i class="fa fa-chevron-left"></i> Namenode Manual Failover
               </a>
             
           </div>
@@ -430,8 +436,8 @@
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2013/09/13/通过thrift api框架访问hdfs/" rel="prev" title="通过thrift api框架访问hdfs">
-                通过thrift api框架访问hdfs <i class="fa fa-chevron-right"></i>
+              <a href="/2012/07/20/hadoop运行一段时间后,无法stop-all.sh停止/" rel="prev" title="hadoop运行一段时间后,无法stop-all.sh停止">
+                hadoop运行一段时间后,无法stop-all.sh停止 <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -567,7 +573,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#从hadoop-1-0-3升级到hadoop-1-2-1"><span class="nav-number">1.</span> <span class="nav-text">从hadoop-1.0.3升级到hadoop-1.2.1</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#hadoop安装目录结构"><span class="nav-number">2.</span> <span class="nav-text">hadoop安装目录结构</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#确保前一次升级已完成"><span class="nav-number">3.</span> <span class="nav-text">确保前一次升级已完成</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#停止hadoop"><span class="nav-number">4.</span> <span class="nav-text">停止hadoop</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#备份数据"><span class="nav-number">5.</span> <span class="nav-text">备份数据</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#更改目录"><span class="nav-number">6.</span> <span class="nav-text">更改目录</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#启动升级"><span class="nav-number">7.</span> <span class="nav-text">启动升级</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#查看升级状态"><span class="nav-number">8.</span> <span class="nav-text">查看升级状态</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#后记"><span class="nav-number">9.</span> <span class="nav-text">后记</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#参考"><span class="nav-number">10.</span> <span class="nav-text">参考</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#hadoop集群动态增加节点"><span class="nav-number">1.</span> <span class="nav-text">hadoop集群动态增加节点</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#hadoop集群均衡器"><span class="nav-number">2.</span> <span class="nav-text">hadoop集群均衡器</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#负载均衡阈值"><span class="nav-number">2.1.</span> <span class="nav-text">负载均衡阈值</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#均衡器工作过程"><span class="nav-number">2.2.</span> <span class="nav-text">均衡器工作过程</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#复制数据带宽限制"><span class="nav-number">2.3.</span> <span class="nav-text">复制数据带宽限制</span></a></li></ol></li></ol></div>
             
 
           </div>
