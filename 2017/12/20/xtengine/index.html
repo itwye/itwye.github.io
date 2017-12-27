@@ -79,7 +79,7 @@
 <link href="/css/main.css?v=5.1.2" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="hadoop,hdfs,大数据,mapreduce," />
+  <meta name="keywords" content="docker,nginx," />
 
 
 
@@ -95,18 +95,18 @@
 
 
 
-<meta name="description" content="mapper间资源冲突 由同一作业启用的多个mapper在同一任务节点运行时，各个mapper在该节点使用的资源不能相冲突. 如在mapper.py里有这样一段程序： 123f = open(&amp;quot;/tmp/vid.txt&amp;quot;,&amp;quot;r&amp;quot;)f.read()subprocess.call(&amp;quot;rm -f /tmp/vid.txt&amp;quot;,shell=Tru">
-<meta name="keywords" content="hadoop,hdfs,大数据,mapreduce">
+<meta name="description" content="xtengine 封装tengine为docker镜像, 基于cloudposse/tengine,增加了状态监控和动态调整upstream pool,后期会加入监控和管理UI。  install &amp;amp; config docker run -d -p 80:80 -p 443:443 -p 8081:8081  itwye/xtengine 在你的工作主机增加dns解析, 如在”/etc/">
+<meta name="keywords" content="docker,nginx">
 <meta property="og:type" content="article">
-<meta property="og:title" content="mapper间资源冲突">
-<meta property="og:url" content="http://yoursite.com/2013/02/20/mapper间资源冲突/index.html">
+<meta property="og:title" content="封装tengine为docker镜像">
+<meta property="og:url" content="http://yoursite.com/2017/12/20/xtengine/index.html">
 <meta property="og:site_name" content="itwye&#39;s 博客">
-<meta property="og:description" content="mapper间资源冲突 由同一作业启用的多个mapper在同一任务节点运行时，各个mapper在该节点使用的资源不能相冲突. 如在mapper.py里有这样一段程序： 123f = open(&amp;quot;/tmp/vid.txt&amp;quot;,&amp;quot;r&amp;quot;)f.read()subprocess.call(&amp;quot;rm -f /tmp/vid.txt&amp;quot;,shell=Tru">
+<meta property="og:description" content="xtengine 封装tengine为docker镜像, 基于cloudposse/tengine,增加了状态监控和动态调整upstream pool,后期会加入监控和管理UI。  install &amp;amp; config docker run -d -p 80:80 -p 443:443 -p 8081:8081  itwye/xtengine 在你的工作主机增加dns解析, 如在”/etc/">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2013-02-20T08:25:54.000Z">
+<meta property="og:updated_time" content="2017-12-20T03:18:54.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="mapper间资源冲突">
-<meta name="twitter:description" content="mapper间资源冲突 由同一作业启用的多个mapper在同一任务节点运行时，各个mapper在该节点使用的资源不能相冲突. 如在mapper.py里有这样一段程序： 123f = open(&amp;quot;/tmp/vid.txt&amp;quot;,&amp;quot;r&amp;quot;)f.read()subprocess.call(&amp;quot;rm -f /tmp/vid.txt&amp;quot;,shell=Tru">
+<meta name="twitter:title" content="封装tengine为docker镜像">
+<meta name="twitter:description" content="xtengine 封装tengine为docker镜像, 基于cloudposse/tengine,增加了状态监控和动态调整upstream pool,后期会加入监控和管理UI。  install &amp;amp; config docker run -d -p 80:80 -p 443:443 -p 8081:8081  itwye/xtengine 在你的工作主机增加dns解析, 如在”/etc/">
 
 
 
@@ -136,13 +136,13 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/2013/02/20/mapper间资源冲突/"/>
+  <link rel="canonical" href="http://yoursite.com/2017/12/20/xtengine/"/>
 
 
 
 
 
-  <title>mapper间资源冲突 | itwye's 博客</title>
+  <title>封装tengine为docker镜像 | itwye's 博客</title>
   
 
 
@@ -269,7 +269,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2013/02/20/mapper间资源冲突/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/12/20/xtengine/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="itwye">
@@ -286,7 +286,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">mapper间资源冲突</h1>
+          <h1 class="post-title" itemprop="name headline">封装tengine为docker镜像</h1>
         
 
         <div class="post-meta">
@@ -298,8 +298,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2013-02-20T16:25:54+08:00">
-                2013-02-20
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-12-20T11:18:54+08:00">
+                2017-12-20
               </time>
             
 
@@ -321,8 +321,8 @@
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/hadoop/" itemprop="url" rel="index">
-                    <span itemprop="name">hadoop</span>
+                  <a href="/categories/docker/" itemprop="url" rel="index">
+                    <span itemprop="name">docker</span>
                   </a>
                 </span>
 
@@ -359,17 +359,22 @@
 
       
         <blockquote>
-<h4 id="mapper间资源冲突"><a href="#mapper间资源冲突" class="headerlink" title="mapper间资源冲突"></a>mapper间资源冲突</h4></blockquote>
-<p>由同一作业启用的多个mapper在同一任务节点运行时，各个mapper在该节点使用的资源不能相冲突.</p>
-<p>如在mapper.py里有这样一段程序：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">f = open(&quot;/tmp/vid.txt&quot;,&quot;r&quot;)</div><div class="line">f.read()</div><div class="line">subprocess.call(&quot;rm -f /tmp/vid.txt&quot;,shell=True)</div></pre></td></tr></table></figure>
-<p>如果同一作业有两个mapper被分配到同一任务节点执行,</p>
-<p>那前一个mapper在执行完后，删除了后一个mapper需要的资源”/tmp/vid.txt”,那后面这个mapper就执行失败了.</p>
-<p>所以对于每个mapper在任务节点使用的资源相互之间隔离开,互不影响.</p>
+<h4 id="xtengine"><a href="#xtengine" class="headerlink" title="xtengine"></a>xtengine</h4></blockquote>
+<p>封装tengine为docker镜像, 基于cloudposse/tengine,增加了状态监控和动态调整upstream pool,后期会加入监控和管理UI。</p>
 <blockquote>
-<h4 id="示例"><a href="#示例" class="headerlink" title="示例"></a>示例</h4></blockquote>
-<p>在mapper.py有这样一段程序：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">subprocess.call(&quot;%s fs -put /tmp/vid/240p.part1v.mp4 hdfs://video/vid/&quot;,shell=True)</div></pre></td></tr></table></figure></p>
-<p>某个mapper在执行失败后(但以上程序已执行)，会重新执行该mapper，当新的mapper执行到以上程序时会报错失败.</p>
+<h5 id="install-amp-config"><a href="#install-amp-config" class="headerlink" title="install &amp; config"></a>install &amp; config</h5></blockquote>
+<p>docker run -d -p 80:80 -p 443:443 -p 8081:8081  itwye/xtengine</p>
+<p>在你的工作主机增加dns解析, 如在”/etc/hosts”增加如下, $docker_server请替换为你的docker宿主机IP.</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">$docker_server prod.xtengine.com</div><div class="line">$docker_server test.xtengine.com</div><div class="line">$docker_server manage.xtengine.com</div></pre></td></tr></table></figure>
+<blockquote>
+<h5 id="usage"><a href="#usage" class="headerlink" title="usage"></a>usage</h5></blockquote>
+<p>upstreams detail<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">curl  http://manage.xtengine.com:8081/detail</div></pre></td></tr></table></figure></p>
+<p>upstreams list<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">curl  http://manage.xtengine.com:8081/list</div></pre></td></tr></table></figure></p>
+<p>单个upstream detail<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">curl  http://manage.xtengine.com:8081/upstream/prod.xtengine.com</div></pre></td></tr></table></figure></p>
+<p>upstream其它操作请见:  <a href="http://tengine.taobao.org/document/http_dyups.html" target="_blank" rel="external">upstream other operate</a></p>
+<p>xtengine requset statistics<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">curl  http://manage.xtengine.com:8081/reqstat</div></pre></td></tr></table></figure></p>
+<p>xtengine vts module<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">http://manage.xtengine.com:8081/ng_status</div></pre></td></tr></table></figure></p>
+<p>访问测试用upstream<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">curl http://test.xtengine.com  # 8089</div><div class="line">curl http://prod.xtengine.com  # 8088</div></pre></td></tr></table></figure></p>
 
       
     </div>
@@ -387,13 +392,9 @@
       
         <div class="post-tags">
           
-            <a href="/tags/hadoop/" rel="tag"># hadoop</a>
+            <a href="/tags/docker/" rel="tag"># docker</a>
           
-            <a href="/tags/hdfs/" rel="tag"># hdfs</a>
-          
-            <a href="/tags/大数据/" rel="tag"># 大数据</a>
-          
-            <a href="/tags/mapreduce/" rel="tag"># mapreduce</a>
+            <a href="/tags/nginx/" rel="tag"># nginx</a>
           
         </div>
       
@@ -406,8 +407,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2013/02/20/设置默认map和reducer数/" rel="next" title="设置默认map和reducer数">
-                <i class="fa fa-chevron-left"></i> 设置默认map和reducer数
+              <a href="/2013/09/13/通过thrift api框架访问hdfs/" rel="next" title="通过thrift api框架访问hdfs">
+                <i class="fa fa-chevron-left"></i> 通过thrift api框架访问hdfs
               </a>
             
           </div>
@@ -416,8 +417,8 @@
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2013/09/12/从hadoop-1.0.3升级到hadoop-1.2.1/" rel="prev" title="从hadoop-1.0.3升级到hadoop-1.2.1">
-                从hadoop-1.0.3升级到hadoop-1.2.1 <i class="fa fa-chevron-right"></i>
+              <a href="/2017/12/27/基础运维作业平台/" rel="prev" title="基础运维作业平台">
+                基础运维作业平台 <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -553,7 +554,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#mapper间资源冲突"><span class="nav-number">1.</span> <span class="nav-text">mapper间资源冲突</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#示例"><span class="nav-number">2.</span> <span class="nav-text">示例</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#xtengine"><span class="nav-number">1.</span> <span class="nav-text">xtengine</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#install-amp-config"><span class="nav-number">1.1.</span> <span class="nav-text">install & config</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#usage"><span class="nav-number">1.2.</span> <span class="nav-text">usage</span></a></li></ol></li></ol></div>
             
 
           </div>
