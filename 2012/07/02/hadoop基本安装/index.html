@@ -1,0 +1,833 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.2" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="hadoop,hdfs,大数据,mapreduce," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.2" />
+
+
+
+
+
+
+<meta name="description" content="前言 hadoop分三种运行模式 单机,伪分布,全分布,单机和伪分布是用于开发和调试，全分布是真正的hadoop集群，用于生产环境。 本次安装做全分布模式，包括master节点,snn节点和2个slave节点。  环境    id ipaddress hostname     master 192.168.0.111 c02.cloudiya.com   snn 192.168.0.107 sn">
+<meta name="keywords" content="hadoop,hdfs,大数据,mapreduce">
+<meta property="og:type" content="article">
+<meta property="og:title" content="hadoop基本安装">
+<meta property="og:url" content="http://yoursite.com/2012/07/02/hadoop基本安装/index.html">
+<meta property="og:site_name" content="itwye&#39;s 博客">
+<meta property="og:description" content="前言 hadoop分三种运行模式 单机,伪分布,全分布,单机和伪分布是用于开发和调试，全分布是真正的hadoop集群，用于生产环境。 本次安装做全分布模式，包括master节点,snn节点和2个slave节点。  环境    id ipaddress hostname     master 192.168.0.111 c02.cloudiya.com   snn 192.168.0.107 sn">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2012-07-02T09:15:54.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="hadoop基本安装">
+<meta name="twitter:description" content="前言 hadoop分三种运行模式 单机,伪分布,全分布,单机和伪分布是用于开发和调试，全分布是真正的hadoop集群，用于生产环境。 本次安装做全分布模式，包括master节点,snn节点和2个slave节点。  环境    id ipaddress hostname     master 192.168.0.111 c02.cloudiya.com   snn 192.168.0.107 sn">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    version: '5.1.2',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2012/07/02/hadoop基本安装/"/>
+
+
+
+
+
+  <title>hadoop基本安装 | itwye's 博客</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">itwye's 博客</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2012/07/02/hadoop基本安装/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="itwye">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="itwye's 博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">hadoop基本安装</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2012-07-02T17:15:54+08:00">
+                2012-07-02
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/hadoop/" itemprop="url" rel="index">
+                    <span itemprop="name">hadoop</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <blockquote>
+<h4 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h4></blockquote>
+<p>hadoop分三种运行模式 单机,伪分布,全分布,单机和伪分布是用于开发和调试，全分布是真正的hadoop集群，用于生产环境。</p>
+<p>本次安装做全分布模式，包括master节点,snn节点和2个slave节点。</p>
+<blockquote>
+<h4 id="环境"><a href="#环境" class="headerlink" title="环境"></a>环境</h4></blockquote>
+<table>
+<thead>
+<tr>
+<th>id</th>
+<th>ipaddress</th>
+<th>hostname</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>master</td>
+<td>192.168.0.111</td>
+<td>c02.cloudiya.com</td>
+</tr>
+<tr>
+<td>snn</td>
+<td>192.168.0.107</td>
+<td>snn.hadoop.cloudiya.com</td>
+</tr>
+<tr>
+<td>slave one</td>
+<td>192.168.0.103</td>
+<td>slaveone.hadoop.cloudiya.com</td>
+</tr>
+<tr>
+<td>slave two</td>
+<td>192.168.0.105</td>
+<td>slavetwo.hadoop.cloudiya.com</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<h4 id="设置各节点-etc-hosts"><a href="#设置各节点-etc-hosts" class="headerlink" title="设置各节点/etc/hosts"></a>设置各节点/etc/hosts</h4></blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">192.168.0.103 slaveone.hadoop.cloudiya.com</div><div class="line">192.168.0.105 slavetwo.hadoop.cloudiya.com</div><div class="line">192.168.0.111 c02.cloudiya.com</div><div class="line">192.168.0.107 snn.hadoop.cloudiya.com</div></pre></td></tr></table></figure>
+<blockquote>
+<h4 id="节点间安全通信设置"><a href="#节点间安全通信设置" class="headerlink" title="节点间安全通信设置"></a>节点间安全通信设置</h4></blockquote>
+<p>a. 在各节点建立相同账户hadoop-user,记得设置密码。</p>
+<p>b. 生成ssh密钥对<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">[hadoop-user@c02 ~]$ ssh-keygen -t rsa  (设置passphrase为空)</div></pre></td></tr></table></figure></p>
+<blockquote>
+<h4 id="分布公钥"><a href="#分布公钥" class="headerlink" title="分布公钥"></a>分布公钥</h4></blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">[hadoop-user@c02 ~]$ scp ~/.ssh/id_rsa.pub  hadoop-user@slaveone.hadoop.cloudiya.com:~/master_key</div><div class="line">[hadoop-user@c02 ~]$ scp ~/.ssh/id_rsa.pub  hadoop-user@slavetwo.hadoop.cloudiya.com:~/master_key</div><div class="line">[hadoop-user@c02 ~]$ scp ~/.ssh/id_rsa.pub  hadoop-user@snn.hadoop.cloudiya.com:~/master_key</div><div class="line">[hadoop-user@c02 ~]$ cp  ~/.ssh/id_rsa.pub ~/.ssh/authorized_keys</div></pre></td></tr></table></figure>
+<blockquote>
+<h4 id="设置master的密钥是授权密钥-slavetwo-master-snn需做同样操作"><a href="#设置master的密钥是授权密钥-slavetwo-master-snn需做同样操作" class="headerlink" title="设置master的密钥是授权密钥,slavetwo,master,snn需做同样操作"></a>设置master的密钥是授权密钥,slavetwo,master,snn需做同样操作</h4></blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">[hadoop-user@slaveone ~]$ mkdir ~/.ssh</div><div class="line">[hadoop-user@slaveone ~]$ chmod 700 ~/.ssh</div><div class="line">[hadoop-user@slaveone ~]$ mv ~/master_key  ~/.ssh/authorized_keys</div><div class="line">[hadoop-user@slaveone ~]$ chmod 600 ~/.ssh/authorized_keys</div></pre></td></tr></table></figure>
+<blockquote>
+<h4 id="测试登录"><a href="#测试登录" class="headerlink" title="测试登录"></a>测试登录</h4></blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">[hadoop-user@c02 src]$ ssh 192.168.0.103</div><div class="line">[hadoop-user@c02 src]$ ssh 192.168.0.105</div><div class="line">[hadoop-user@c02 src]$ ssh 192.168.0.111</div><div class="line">[hadoop-user@c02 src]$ ssh 192.168.0.107</div></pre></td></tr></table></figure>
+<blockquote>
+<h4 id="在所有节点安装jdk"><a href="#在所有节点安装jdk" class="headerlink" title="在所有节点安装jdk"></a>在所有节点安装jdk</h4></blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">wget http://download.oracle.com/otn-pub/java/jdk/7u3-b04/jdk-7u3-linux-x64.tar.gz</div><div class="line">jdk安装于：/usr/local/src/jdk/</div></pre></td></tr></table></figure>
+<blockquote>
+<h4 id="在master安装hadoop-在hadoop-user下进行"><a href="#在master安装hadoop-在hadoop-user下进行" class="headerlink" title="在master安装hadoop,在hadoop-user下进行"></a>在master安装hadoop,在hadoop-user下进行</h4></blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">wget http://mirror.bjtu.edu.cn/apache/hadoop/core/hadoop-0.20.2/hadoop-0.20.2.tar.gz</div><div class="line">安装hadoop安装于：/usr/local/src/hadoop/</div></pre></td></tr></table></figure>
+<blockquote>
+<h4 id="配置hadoop"><a href="#配置hadoop" class="headerlink" title="配置hadoop"></a>配置hadoop</h4></blockquote>
+<p>a. 在hadoop-env.sh添加环境变量</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">export JAVA_HOME=/usr/local/src/jdk</div><div class="line">export HADOOP_HOME=/usr/local/src/hadoop</div></pre></td></tr></table></figure>
+<p>b. 修改core-site.xml,指出hdfs文件系统namenode所在。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">&lt;configuration&gt;</div><div class="line">&lt;property&gt;</div><div class="line">&lt;name&gt;fs.default.name&lt;/name&gt;</div><div class="line">&lt;value&gt;hdfs://c02.cloudiya.com:9000&lt;/value&gt;</div><div class="line">&lt;/property&gt;</div><div class="line">&lt;property&gt;</div><div class="line">&lt;name&gt;hadoop.tmp.dir&lt;/name&gt;</div><div class="line">&lt;value&gt;/home/hadoop/tmp&lt;/value&gt;</div><div class="line">&lt;/property&gt;</div><div class="line">&lt;/configuration&gt;</div></pre></td></tr></table></figure>
+<p>c. 修改mapred-site.xml,指出jobtracker所在主节点</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">&lt;configuration&gt;</div><div class="line">&lt;property&gt;</div><div class="line">&lt;name&gt;mapred.job.tracker&lt;/name&gt;</div><div class="line">&lt;value&gt;c02.cloudiya.com:9001&lt;/value&gt;</div><div class="line">&lt;/property&gt;</div><div class="line">&lt;/configuration&gt;</div></pre></td></tr></table></figure>
+<p>d. 修改hdfs-site.xml,指定hdfs为文件块保存的副本数.</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre></td><td class="code"><pre><div class="line">&lt;configuration&gt;</div><div class="line">&lt;property&gt;</div><div class="line">&lt;name&gt;dfs.replication&lt;/name&gt;</div><div class="line">&lt;value&gt;2&lt;/value&gt;</div><div class="line">&lt;/property&gt;</div><div class="line">&lt;property&gt;</div><div class="line">&lt;name&gt;dfs.data.dir&lt;/name&gt;</div><div class="line">&lt;value&gt;/home/hadoop/dfs/data&lt;/value&gt;</div><div class="line">&lt;/property&gt;</div><div class="line">&lt;property&gt;</div><div class="line">&lt;name&gt;dfs.name.dir&lt;/name&gt;</div><div class="line">&lt;value&gt;/home/hadoop/dfs/name&lt;/value&gt;</div><div class="line">&lt;/property&gt;</div><div class="line">&lt;property&gt;</div><div class="line">&lt;name&gt;dfs.datanode.du.reserved&lt;/name&gt;</div><div class="line">&lt;value&gt;1073741824&lt;/value&gt;</div><div class="line">&lt;/property&gt;</div><div class="line">&lt;/configuration&gt;</div></pre></td></tr></table></figure>
+<p>e. 在master中添加snn所在</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">snn.hadoop.cloudiya.com</div></pre></td></tr></table></figure>
+<p>f. 在slaves中添加slave节点所在</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">slaveone.hadoop.cloudiya.com</div><div class="line">slavetwo.hadoop.cloudiya.com</div></pre></td></tr></table></figure>
+<blockquote>
+<h4 id="推送master下hadoop到snn-slaveone-slavetwo"><a href="#推送master下hadoop到snn-slaveone-slavetwo" class="headerlink" title="推送master下hadoop到snn,slaveone,slavetwo"></a>推送master下hadoop到snn,slaveone,slavetwo</h4></blockquote>
+<p>先在snn,slaveone,slavetwo下相应目录建hadoop目录，chown给hadoop-user用户</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">[hadoop-user@c02 ~]$ scp -r /usr/local/src/hadoop/*  slaveone.hadoop.cloudiya.com:/usr/local/src/hadoop</div><div class="line">[hadoop-user@c02 ~]$ scp -r /usr/local/src/hadoop/*  slavetwo.hadoop.cloudiya.com:/usr/local/src/hadoop</div><div class="line">[hadoop-user@c02 ~]$ scp -r /usr/local/src/hadoop/*  snn.hadoop.cloudiya.com:/usr/local/src/hadoop</div></pre></td></tr></table></figure>
+<p>推送安装文件到各节点.</p>
+<blockquote>
+<h4 id="在各节点设置hadoop数据相关目录"><a href="#在各节点设置hadoop数据相关目录" class="headerlink" title="在各节点设置hadoop数据相关目录"></a>在各节点设置hadoop数据相关目录</h4></blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">mkdir /home/hadoop &amp;&amp; chown hadoop-user:hadoop-user /home/hadoop</div></pre></td></tr></table></figure>
+<blockquote>
+<h4 id="格式化hdfs"><a href="#格式化hdfs" class="headerlink" title="格式化hdfs"></a>格式化hdfs</h4></blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">[hadoop-user@c02 ~]$ /usr/local/src/hadoop/bin/hadoop namenode -format</div></pre></td></tr></table></figure>
+<blockquote>
+<h4 id="启动hadoop"><a href="#启动hadoop" class="headerlink" title="启动hadoop"></a>启动hadoop</h4></blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">[hadoop-user@c02 ~]$ /usr/local/src/hadoop/bin/start-all.sh</div></pre></td></tr></table></figure>
+<blockquote>
+<h4 id="启动信息"><a href="#启动信息" class="headerlink" title="启动信息"></a>启动信息</h4></blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">[hadoop-user@c02 src]$ /usr/local/src/hadoop/bin/start-all.sh </div><div class="line">starting namenode, logging to /usr/local/src/hadoop/logs/hadoop-hadoop-user-namenode-c02.cloudiya.com.out</div><div class="line">slaveone.hadoop.cloudiya.com: starting datanode, logging to /usr/local/src/hadoop/logs/hadoop-hadoop-user-datanode-slaveone.hadoop.cloudiya.com.out</div><div class="line">slavetwo.hadoop.cloudiya.com: starting datanode, logging to /usr/local/src/hadoop/logs/hadoop-hadoop-user-datanode-slavetwo.hadoop.cloudiya.com.out</div><div class="line">snn.hadoop.cloudiya.com: starting secondarynamenode, logging to /usr/local/src/hadoop/logs/hadoop-hadoop-user-secondarynamenode-snn.hadoop.cloudiya.com.out</div><div class="line">starting jobtracker, logging to /usr/local/src/hadoop/logs/hadoop-hadoop-user-jobtracker-c02.cloudiya.com.out</div><div class="line">slaveone.hadoop.cloudiya.com: starting tasktracker, logging to /usr/local/src/hadoop/logs/hadoop-hadoop-user-tasktracker-slaveone.hadoop.cloudiya.com.out</div><div class="line">slavetwo.hadoop.cloudiya.com: starting tasktracker, logging to /usr/local/src/hadoop/logs/hadoop-hadoop-user-tasktracker-slavetwo.hadoop.cloudiya.com.out</div></pre></td></tr></table></figure>
+<blockquote>
+<h4 id="验证hadoop是否启动"><a href="#验证hadoop是否启动" class="headerlink" title="验证hadoop是否启动"></a>验证hadoop是否启动</h4></blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div></pre></td><td class="code"><pre><div class="line">master</div><div class="line">[hadoop-user@c02 ~]$ /usr/local/src/jdk/bin/jps</div><div class="line">2135 Jps</div><div class="line">28957 JobTracker</div><div class="line">28805 NameNode</div><div class="line">   </div><div class="line">slaveone</div><div class="line">[hadoop-user@slaveone logs]$ /usr/local/src/jdk/bin/jps</div><div class="line">2067 DataNode</div><div class="line">2262 Jps</div><div class="line">2152 TaskTracker</div><div class="line"></div><div class="line">slavetwo</div><div class="line">[hadoop-user@slavetwo logs]$ /usr/local/src/jdk/bin/jps</div><div class="line">1791 TaskTracker</div><div class="line">2334 Jps</div><div class="line">1706 DataNode</div><div class="line"></div><div class="line">snn</div><div class="line">[hadoop-user@snn logs]$ /usr/local/src/jdk/bin/jps</div><div class="line">1735 Jps</div><div class="line">1676 SecondaryNameNode</div></pre></td></tr></table></figure>
+<blockquote>
+<h4 id="web-ui"><a href="#web-ui" class="headerlink" title="web ui"></a>web ui</h4></blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">hdfs</div><div class="line">http://c02.cloudiya.com:50070/</div><div class="line">jobtraker</div><div class="line">http://c02.cloudiya.com:50030/</div></pre></td></tr></table></figure>
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/hadoop/" rel="tag"># hadoop</a>
+          
+            <a href="/tags/hdfs/" rel="tag"># hdfs</a>
+          
+            <a href="/tags/大数据/" rel="tag"># 大数据</a>
+          
+            <a href="/tags/mapreduce/" rel="tag"># mapreduce</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2012/06/20/Namenode Manual Failover(元数据备份采用nfs)/" rel="next" title="Namenode Manual Failover(元数据备份采用nfs)">
+                <i class="fa fa-chevron-left"></i> Namenode Manual Failover(元数据备份采用nfs)
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2012/07/06/Namenode Manual Failover/" rel="prev" title="Namenode Manual Failover">
+                Namenode Manual Failover <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div id="uyan_frame"></div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          
+            <p class="site-author-name" itemprop="name">itwye</p>
+            <p class="site-description motion-element" itemprop="description"></p>
+        </div>
+
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+            
+              <a href="/archives/">
+            
+                <span class="site-state-item-count">13</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-categories">
+              <a href="/categories/index.html">
+                <span class="site-state-item-count">1</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              
+                <span class="site-state-item-count">4</span>
+                <span class="site-state-item-name">标签</span>
+              
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#前言"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#环境"><span class="nav-number">2.</span> <span class="nav-text">环境</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#设置各节点-etc-hosts"><span class="nav-number">3.</span> <span class="nav-text">设置各节点/etc/hosts</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#节点间安全通信设置"><span class="nav-number">4.</span> <span class="nav-text">节点间安全通信设置</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#分布公钥"><span class="nav-number">5.</span> <span class="nav-text">分布公钥</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#设置master的密钥是授权密钥-slavetwo-master-snn需做同样操作"><span class="nav-number">6.</span> <span class="nav-text">设置master的密钥是授权密钥,slavetwo,master,snn需做同样操作</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#测试登录"><span class="nav-number">7.</span> <span class="nav-text">测试登录</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#在所有节点安装jdk"><span class="nav-number">8.</span> <span class="nav-text">在所有节点安装jdk</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#在master安装hadoop-在hadoop-user下进行"><span class="nav-number">9.</span> <span class="nav-text">在master安装hadoop,在hadoop-user下进行</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#配置hadoop"><span class="nav-number">10.</span> <span class="nav-text">配置hadoop</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#推送master下hadoop到snn-slaveone-slavetwo"><span class="nav-number">11.</span> <span class="nav-text">推送master下hadoop到snn,slaveone,slavetwo</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#在各节点设置hadoop数据相关目录"><span class="nav-number">12.</span> <span class="nav-text">在各节点设置hadoop数据相关目录</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#格式化hdfs"><span class="nav-number">13.</span> <span class="nav-text">格式化hdfs</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#启动hadoop"><span class="nav-number">14.</span> <span class="nav-text">启动hadoop</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#启动信息"><span class="nav-number">15.</span> <span class="nav-text">启动信息</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#验证hadoop是否启动"><span class="nav-number">16.</span> <span class="nav-text">验证hadoop是否启动</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#web-ui"><span class="nav-number">17.</span> <span class="nav-text">web ui</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">itwye</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+  <span class="post-meta-divider">|</span>
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">NexT.Mist</a> v5.1.2</div>
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.2"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.2"></script>
+
+
+
+  
+  
+
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.2"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.2"></script>
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.2"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.2"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.2"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+    
+
+    
+      <!-- UY BEGIN -->
+      <script type="text/javascript" src="http://v2.uyan.cc/code/uyan.js?uid=2144454"></script>
+      <!-- UY END -->
+    
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
