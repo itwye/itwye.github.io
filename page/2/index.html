@@ -265,7 +265,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2012/07/06/Namenode Manual Failover/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2012/07/06/用fuse-dfs挂载hdfs到linux本地目录/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="itwye">
@@ -284,7 +284,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2012/07/06/Namenode Manual Failover/" itemprop="url">Namenode Manual Failover</a></h1>
+                <a class="post-title-link" href="/2012/07/06/用fuse-dfs挂载hdfs到linux本地目录/" itemprop="url">用fuse-dfs挂载hdfs到linux本地目录</a></h1>
         
 
         <div class="post-meta">
@@ -359,15 +359,42 @@
         
           
           
-前言
-如果主节点挂掉了，硬盘数据需要时间恢复或者不能恢复了，现在又想立刻恢复HDFS，这个时候就可以import checkpoint。步骤如下：
+用fuse-dfs挂载hdfs到linux本地目录需要的组件
 
-拿一台和原来机器一样的机器，包括配置和文件，一般来说最快的是拿你节点机器中的一台，立马能用（部分配置要改成NameNode的配置）
-创建一个空的文件
+
+
+组件
+版本
+
+
+
+
+os
+redhat 6.0
+
+
+hadoop
+0.20.203.0
+
+
+gcc
+4.4.5
+
+
+jdk
+1.6.0.31
+
+
+fuse
+2.8.3
+
+
+
+其它：automake，autoconf，m4，libt
           ...
           <!--noindex-->
           <div class="post-button text-center">
-            <a class="btn" href="/2012/07/06/Namenode Manual Failover/#more" rel="contents">
+            <a class="btn" href="/2012/07/06/用fuse-dfs挂载hdfs到linux本地目录/#more" rel="contents">
               阅读全文 &raquo;
             </a>
           </div>
